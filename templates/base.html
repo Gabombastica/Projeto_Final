@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Gems{% endblock %} - Gestão Gems</title>
+    <link rel="stylesheet" href="/static/final.css">
 </head>
 <body>
-Teste
+
+    <div class="layout">
+
+        <!-- MENU VERTICAL -->
+        <nav class="menu-lateral">
+            <div class="menu-titulo"> ⚙️ Gems </div>
+            <ul>
+                <li>
+                    <a href="{{ url_for('inicio') }}"
+                       class="{{ 'ativo' if request.endpoint == 'inicio' else '' }}">
+                       <span class="icone">🏠</span> Início
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('listar_equipamentos') }}"
+                       class="{{ 'ativo' if 'equipamento' in request.endpoint else '' }}">
+                       <span class="icone">🛠️</span> Equipamentos
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('listar_times') }}"
+                       class="{{ 'ativo' if request.endpoint and 'ordem_servico' in request.endpoint else '' }}">
+                       <span class="icone">📋</span> Ordem de serviço
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- CONTEÚDO -->
+        <main class="conteudo">
+            {% with mensagens = get_flashed_messages(with_categories=true) %}
+                {% if mensagens %}
+                    <div class="flash-container">
+                        {% for categoria, mensagem in mensagens %}
+                            <div class="flash flash-{{ categoria }}">{{ mensagem }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block conteudo %}
+            {% endblock %}
+        </main>
+
+    </div>
+
 </body>
 </html>
 
