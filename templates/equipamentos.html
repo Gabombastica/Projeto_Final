@@ -1,3 +1,52 @@
 {% extends 'base.html' %}
+
 {% block conteudo %}
+<div class="cabecalho-pagina">
+        <div>
+            <h1>Equipamentos</h1>
+            <p class="subtitulo">Cadastro dos Equipamentos</p>
+        </div>
+</div>
+
+    {% if request.endpoint == 'novo_equipamento' %}
+    <section class="painel formulario">
+        <h2>Novo Cadastro</h2>
+        <form method="POST" action="{{ url_for('novo_equipamentos') }}">
+            <div class="linha-campos">
+                <div class="campo">
+                    <label for="nome">Nome do equipamento</label>
+                    <input type="text" id="nome" name="nome">
+                </div>
+                <div class="campo">
+                    <label for="quantidad">Quantidade de equipamentos</label>
+                    <input type="number" id="quantidade" name="quantidade">
+                </div>
+                <div class="campo">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" id="usuario" name="usuario">
+                </div>
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" name="descricao">
+                </div>
+                <div class="campo">
+                    <label for="data_agendada">Data agendada</label>
+                    <input type="text" id="data_agendada" name="data_agendada">
+                </div>
+                <div class="campo">
+                    <label for="atividade">Atividade</label>
+                    <input type="text" id="atividade" name="atividade">
+                </div>
+                <div class="campo">
+                    <label for="preco">Preço</label>
+                    <input type="text" id="preco" name="preo">
+                </div>
+            </div>
+                <div class="acoes-form">
+                    <button type="submit" class="botao">Cadastrar</button>
+                    <a href="{{ url_for('equipamentos') }}" class="botao botao-secundario">Cancelar</a>
+                </div>
+        </form>
+    </section>
+    {% endif %}
 {% endblock conteudo %}

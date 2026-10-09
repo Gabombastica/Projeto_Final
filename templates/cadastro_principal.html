@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2> Texto do início </h2>
+
+{% if not editar %}
+<a href="{{ url_for('cadastro') }}" class="botao"> Cadastrar </a>
+{% endif %}
+
+<section class="painel">
+        <h2>Lista dos cadastrados </h2>
+        {% if cadastrados %}
+            <table>
+    <!-- "thead" serve como cabeçalho e "tbody" como informação-->
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {%for cadastro in cadastros%}
+                            <tr>
+                                <td>{{ cadastro.id }}</td>
+                                <td>{{ cadastro.nome }}</td>
+                                <td>{{ cadastro.email }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        {% else %}
+            <p class="vazio">Nenhuma pessoa cadastrada ainda</p>
+        {% endif %}
+</section>
+{% endblock conteudo %}

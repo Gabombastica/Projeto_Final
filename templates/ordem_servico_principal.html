@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2> Texto do início </h2>
+
+{% if not editar %}
+<a href="{{ url_for('ordem_servico') }}" class="botao"> Cadastrar ordem de serviço (OS) </a>
+{% endif %}
+
+<section class="painel">
+        <h2>Lista das OS's cadastradas </h2>
+        {% if ordem_servicos %}
+            <table>
+    <!-- "thead" serve como cabeçalho e "tbody" como informação-->
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Quantidade</th>
+                        <th>Usuário</th>
+                        <th>Data agendada</th>
+                        <th>Descrição</th>
+                        <th>Atividade</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {%for ordem_servico in ordem_servicos%}
+                            <tr>
+                                <td>{{ ordem_servico.i }}</td>
+                                <td>{{ ordem_servico.nome }}</td>
+                                <td>{{ ordem_servico.quantidade }}</td>
+                                <td>{{ ordem_servico.usuario }}</td>
+                                <td>{{ ordem_servico.data_agendada }}</td>
+                                <td>{{ ordem_servico.descricao }}</td>
+                                <td>{{ ordem_servico.atividade }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        {% else %}
+            <p class="vazio">Nenhuma pessoa cadastrada ainda</p>
+        {% endif %}
+</section>
+{% endblock conteudo %}

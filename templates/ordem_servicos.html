@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="cabecalho-pagina">
+        <div>
+            <h1>Ordem de serviço</h1>
+            <p class="subtitulo">Cadastro das ordens de serviço</p>
+        </div>
+</div>
+
+    {% if request.endpoint == 'nova_ordem_servico' %}
+    <section class="painel formulario">
+        <h2>Nova Ordem de Serviço</h2>
+        <form method="POST" action="{{ url_for('nova_ordem_servico') }}">
+            <div class="linha-campos">
+                <div class="campo">
+                    <label for="nome_solicitante">Nome do solicitante</label>
+                    <input type="text" id="nome_solicitante" name="nome_solicitante">
+                </div>
+                <div class="campo">
+                    <label for="nome_responsavel">Nome do responsável</label>
+                    <input type="text" id="nome_responavel" name="nome_responsavel">
+                </div>
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" name="descricao">
+                </div>
+                <div class="campo">
+                    <label for="material">Material</label>
+                    <input type="text" id="material" name="material">
+                </div>
+                <div class="campo">
+                    <label for="prioridade">Prioridade</label>
+                    <select id="prioridade" name="prioridade">
+                        <option> Alta </option>
+                        <option> Média </option>
+                        <option> Baixa </option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="estado">Estado</label>
+                    <select id="estado" name="estado">
+                        <option> Concluído </option>
+                        <option> Em processo </option>
+                        <option> Não iniciado </option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="comeco_os">Comeco da OS</label>
+                    <input type="date" id="comeco_os" name="comeco_os">
+                </div>
+                <div class="campo">
+                    <label for="conclusao">Conclusão</label>
+                    <input type="text" id="conclusao" name="conclusao">
+                </div>
+            </div>
+                <div class="acoes-form">
+                    <button type="submit" class="botao">Cadastrar</button>
+                    <a href="{{ url_for('equipamentos') }}" class="botao botao-secundario">Cancelar</a>
+                </div>
+        </form>
+    </section>
+    {% endif %}
+
+{% endblock conteudo %}
