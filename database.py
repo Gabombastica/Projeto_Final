@@ -1,5 +1,4 @@
-import os
-from datetime import date
+import datetime
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker, scoped_session
 
@@ -27,7 +26,7 @@ class Equipamento(Base):
     quantidade = Column(Integer, default=0)
     usuario = Column(String(50), nullable=False)
     nota_solicitante = Column(String(225), nullable=False)
-    data_agendada = Column(Date, default=date.today())
+    data_agendada = Column(Date, default=datetime.date.today())
     atividade = Column(String(100), nullable=False)
     preco = Column(Integer, default=0)
 
