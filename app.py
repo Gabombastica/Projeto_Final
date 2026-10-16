@@ -1,11 +1,10 @@
-from os import times
-
-import request
 from flask import Flask, render_template, request, redirect, url_for, flash
+import request
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
-from banco_dados import tabela_cadastro, tabela_equipamentos, tabela_servico
+from banco_dados import tabela_cadastro, tabela_equipamentos, tabela_servico, tabela_recursos
 from database import *
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "chave-secreta-projeto-2026"
@@ -52,6 +51,7 @@ def novo_cadastro():
 
         tabela_cadastro.salvar(nome=nome, data_nascimento=data_nascimento, email=email, telefone=telefone, senha=senha)
         return redirect(url_for("listar_cadastros"))
+
     cadastros = tabela.cadastro.select_todos()
     print(cadastros)
     return render_template("cadastro_principal.html", cadastros=cadastros)
@@ -69,7 +69,6 @@ def novo_equipamento():
 
         if not nome:
             flash('Por favor, insira o nome', 'error')
-
             return redirect(url_for("novo_equipamento"))
         if not usuario:
             flash('Por favor, insira o usuário', 'error')
@@ -92,6 +91,7 @@ def novo_equipamento():
 
         tabela_equipamentos.salvar()
         return redirect(url_for("listar_equipamentos"))
+
     equipamentos = tabela_equipamentos.select_todos()
     print(equipamentos)
     return render_template("equipamentos_principal.html", equipamentos=equipamentos)
@@ -115,7 +115,7 @@ def nova_ordem_servico():
             flash('Por favor, insira o nome do responsável', 'error')
             return redirect(url_for("nova_ordem_servico"))
         if not descricao:
-            flash('Por favor,insira a descrição da ordem de serviço', 'error')
+            flash('Por favor, insira a descrição da ordem de serviço', 'error')
             return redirect(url_for("nova_ordem_servico"))
         if not prioridade:
             flash('Por favor, selecione a prioridade', 'error')
@@ -124,7 +124,7 @@ def nova_ordem_servico():
             flash('Por favor, insira o material', 'error')
             return redirect(url_for("nova_ordem_servico"))
         if not estado:
-            flash('Por favor, selecione o estado da OS', 'error')
+            flash('Por favor, selecione o status da OS', 'error')
             return redirect(url_for("nova_ordem_servico"))
         if not comeco_ordem:
             flash('Por favor, insira a data do começo', 'error')
@@ -135,6 +135,10 @@ def nova_ordem_servico():
 
         tabela_servico.salvar(nome_solicitante=nome_solicitante, nome_responsavel=nome_responsavel, descricao=descricao, prioridade=prioridade, material=material, estado=estado, comeco_ordem=comeco_ordem, conclusao=conclusao)
         return redirect(url_for("listar_ordem_servicos"))
+
     ordem_servicos = tabela_servico.select_todos()
     print(ordem_servicos)
     return render_template("ordem_servico_principal.html", ordem_servicos=ordem_servicos)
+
+if __name__ == "__main__":
+    app.run(debug=True)
