@@ -4,11 +4,11 @@
 <h2> Texto do início </h2>
 
 {% if not editar %}
-<a href="{{ url_for('equipamentos') }}" class="botao"> Cadastrar equipamentos </a>
+<a href="{{ url_for('equipamentos') }}" class="botao"> Cadastrar Equipamentos </a>
 {% endif %}
 
 <section class="painel">
-        <h2>Lista dos equipamentos cadastrados </h2>
+        <h2>Lista dos Equipamentos Cadastrados </h2>
         {% if equipamentos %}
             <table>
     <!-- "thead" serve como cabeçalho e "tbody" como informação-->
@@ -16,11 +16,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Nome</th>
+                        <th>Cliente</th>
                         <th>Quantidade</th>
-                        <th>Usuário</th>
-                        <th>Data agendada</th>
-                        <th>Descrição</th>
-                        <th>Atividade</th>
                     </tr>
                 </thead>
                     <tbody>
@@ -28,17 +25,14 @@
                             <tr>
                                 <td>{{ equipamento.id }}</td>
                                 <td>{{ equipamento.nome }}</td>
+                                <td>{{ equipamento.cliente }}</td>>
                                 <td>{{ equipamento.quantidade }}</td>
-                                <td>{{ equipamento.usuario }}</td>
-                                <td>{{ equipamento.data_agendada }}</td>
-                                <td>{{ equipamento.descricao }}</td>
-                                <td>{{ equipamento.atividade }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
             </table>
         {% else %}
-            <p class="vazio">Nenhuma pessoa cadastrada ainda</p>
+            <p class="vazio">Nenhum equipamento cadastrado ainda</p>
         {% endif %}
 </section>
 {% endblock conteudo %}

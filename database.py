@@ -23,7 +23,6 @@ class Equipamento(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
     cliente = Column(String(50), nullable=False)
-    data_agendada = Column(Date)
     quantidade = Column(Integer, default=0)
     nota_cliente = Column(String(300), nullable=False)
 

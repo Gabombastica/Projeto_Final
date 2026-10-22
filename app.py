@@ -69,7 +69,6 @@ def novo_equipamento():
     if request.method == "POST":
         nome = request.form.get("nome", "").strip()
         cliente = request.form.get("cliente", "").strip()
-        data_agendada = request.form.get("data_agendada", "").strip()
         quantidade = request.form.get("quantidade", "").strip()
         nota_cliente = request.form.get("nota_cliente", "").strip()
 
@@ -78,9 +77,6 @@ def novo_equipamento():
             return redirect(url_for("novo_equipamento"))
         if not cliente:
             flash('Por favor, insira o seu nome', 'error')
-            return redirect(url_for("novo_equipamento"))
-        if not data_agendada:
-            flash('Por favor, selecione uma data para agendar', 'error')
             return redirect(url_for("novo_equipamento"))
         if not quantidade:
             flash('Por favor, insira a quantidade', 'error')
