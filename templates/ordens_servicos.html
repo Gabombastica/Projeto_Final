@@ -4,7 +4,7 @@
 <div class="cabecalho-pagina">
         <div>
             <h1>Ordem de serviço</h1>
-            <p class="subtitulo">Cadastro das ordens de serviço</p>
+            <p class="subtitulo">Cadastro das Ordens de Serviços</p>
         </div>
 </div>
 
@@ -14,49 +14,61 @@
         <form method="POST" action="{{ url_for('nova_ordem_servico') }}">
             <div class="linha-campos">
                 <div class="campo">
-                    <label for="nome_solicitante">Nome do solicitante</label>
-                    <input type="text" id="nome_solicitante" name="nome_solicitante">
+                    <label for="cliente">Nome do Cliente</label>
+                    <input type="text" id="cliente" name="cliente" required>
                 </div>
                 <div class="campo">
-                    <label for="nome_responsavel">Nome do responsável</label>
-                    <input type="text" id="nome_responavel" name="nome_responsavel">
+                    <label for="responsavel">Nome do Responsável</label>
+                    <input type="text" id="responsavel" name="responsavel" required>
                 </div>
                 <div class="campo">
-                    <label for="descricao">Descrição</label>
-                    <input type="text" id="descricao" name="descricao">
+                    <label for="equipamento">Equipamento Utilizado</label>
+                    <select id="equipamento" name="equipamento" required>
+                        {% for equipamentos, ordens in ordens %}
+                        <option value="{{ equipamento.id }}">{{ equipamento.nome }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="campo">
-                    <label for="material">Material</label>
-                    <input type="text" id="material" name="material">
+                    <label for="recurso">Recurso(s) Utilizado </label>
+                    <select id="recurso" name="recurso" required>
+                        {% for recursos, ordens in ordens %}
+                        <option value="{{ recurso.id }}">{{ recurso.nome }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="campo">
-                    <label for="prioridade">Prioridade</label>
-                    <select id="prioridade" name="prioridade">
+                    <label for="prioridade">Prioridade da OS</label>
+                    <select id="prioridade" name="prioridade" required>
                         <option> Alta </option>
                         <option> Média </option>
                         <option> Baixa </option>
                     </select>
                 </div>
                 <div class="campo">
-                    <label for="estado">Estado</label>
-                    <select id="estado" name="estado">
-                        <option> Concluído </option>
-                        <option> Em processo </option>
+                    <label for="estado">Status da OS</label>
+                    <select id="estado" name="estado" required>
                         <option> Não iniciado </option>
+                        <option> Em processo </option>
+                        <option> Concluído </option>
                     </select>
                 </div>
                 <div class="campo">
-                    <label for="comeco_os">Comeco da OS</label>
-                    <input type="date" id="comeco_os" name="comeco_os">
+                    <label for="data_abertura">Data de Abertura da OS</label>
+                    <input type="date" id="data_abertura" name="data_abertura" required>
                 </div>
                 <div class="campo">
-                    <label for="conclusao">Conclusão</label>
-                    <input type="text" id="conclusao" name="conclusao">
+                    <label for="data_prazo">Data do Prazo da OS</label>
+                    <input type="date" id="data_prazo" name="data_prazo" required>
+                </div>
+                <div class="campo">
+                    <label for="descricao">Descrição da OS</label>
+                    <input type="text" id="descricao" name="descricao" required>
                 </div>
             </div>
                 <div class="acoes-form">
                     <button type="submit" class="botao">Cadastrar</button>
-                    <a href="{{ url_for('equipamentos') }}" class="botao botao-secundario">Cancelar</a>
+                    <a href="{{ url_for('ordens_servicos') }}" class="botao botao-secundario">Cancelar</a>
                 </div>
         </form>
     </section>
