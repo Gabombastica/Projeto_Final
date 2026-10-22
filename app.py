@@ -20,7 +20,7 @@ def listar_equipamentos():
 @app.route("/ordem_servicos", methods=["GET", "POST"])
 def listar_ordem_servicos():
     ordem_servicos = tabela_ordens.select_todos()
-    return render_template("ordem_servicos.html", ordem_servicos=ordem_servicos)
+    return render_template("ordens_servicos.html", ordem_servicos=ordem_servicos)
 
 @app.route("/cadastros", methods=["GET", "POST"])
 def listar_cadastros():
@@ -89,7 +89,7 @@ def novo_equipamento():
 
     equipamentos = tabela_equipamentos.select_todos()
     print(equipamentos)
-    return render_template("equipamentos_principal.html", equipamentos=equipamentos)
+    return render_template("listar_equipamentos.html", equipamentos=equipamentos)
 
 @app.route("/recurso/novo", methods=["GET", "POST"])
 def novo_recurso():
@@ -117,7 +117,7 @@ def novo_recurso():
 
     recursos = tabela_recursos.select_todos()
     print(recursos)
-    return render_template("equipamentos_principal.html", equipamentos=equipamentos)
+    return render_template("listar_equipamentos.html", equipamentos=equipamentos)
 
 @app.route("/ordem_servico/nova", methods=["GET", "POST"])
 def nova_ordem_servico():
