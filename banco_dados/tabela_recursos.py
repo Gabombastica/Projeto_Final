@@ -4,10 +4,13 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import aliased
 from sqlalchemy.sql.elements import or_
 
-from database import db_projeto_final, Recurso
+from database import db_projeto_final, Recurso, Equipamento, Usuario
 
 def select_todos_recursos():
-
+    # Buscar todos os times no banco
+    # 1- Montar o select
+    # join(Tabela que eu quero juntar, condição = Chave estrangeira == Chave primária)
+    recursos_sql = select(Recurso, Usuario, Equipamento).join(Equipamento, Recurso.equipamento == Equipamento.id).join(Usuario, Recurso)
     # 2- Executar o select
     equipamentos = db_projeto_final.execute(equipamentos_sql).all()
     return equipamentos
