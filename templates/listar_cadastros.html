@@ -4,7 +4,7 @@
 <h2> Texto do início </h2>
 
 {% if not editar %}
-<a href="{{ url_for('cadastro') }}" class="botao"> Cadastrar </a>
+<a href="{{ url_for('cadastros') }}" class="botao"> Cadastrar </a>
 {% endif %}
 
 <section class="painel">
@@ -16,6 +16,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Nome</th>
+                        <th>Data de Nascimento</th>
+                        <th>Telefone</th>
                         <th>Email</th>
                     </tr>
                 </thead>

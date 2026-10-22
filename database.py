@@ -1,10 +1,9 @@
-import datetime
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker, scoped_session
 
-engine = create_engine("mysql+pymysql://root:senaisp@localhost:3306/final_project")
+engine = create_engine("mysql+pymysql://root:senaisp@localhost:3306/projeto_final")
 
-db_final_project = scoped_session (sessionmaker(bind=engine))
+db_projeto_final = scoped_session (sessionmaker(bind=engine))
 
 Base = declarative_base()
 
@@ -24,7 +23,7 @@ class Equipamento(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
     cliente = Column(String(50), nullable=False)
-    data_agendada = Column(Date, default=datetime.date.today())
+    data_agendada = Column(Date)
     quantidade = Column(Integer, default=0)
     nota_cliente = Column(String(300), nullable=False)
 

@@ -19,17 +19,17 @@ def listar_cadastros():
 
 @app.route("/equipamentos", methods=["GET", "POST"])
 def listar_equipamentos():
-    equipamentos = tabela_equipamentos.select_todos()
+    equipamentos = tabela_equipamentos.select_todos_equipamentos()
     return render_template("equipamentos.html", equipamentos=equipamentos)
 
 @app.route("/recursos", methods=["GET", "POST"])
 def listar_recursos():
-    recursos = tabela_recursos.select_todos()
+    recursos = tabela_recursos.select_todos_recursos()
     return render_template("recursos.html", recursos=recursos)
 
 @app.route("/ordem_servicos", methods=["GET", "POST"])
 def listar_ordens_servicos():
-    ordens_servicos = tabela_ordens.select_todos()
+    ordens_servicos = tabela_ordens.select_todas_ordens()
     return render_template("ordens_servicos.html", ordens_servicos=ordens_servicos)
 
 @app.route("/cadastro/novo", methods=["GET", "POST"])
@@ -92,7 +92,7 @@ def novo_equipamento():
         tabela_equipamentos.salvar(nome=nome, cliente=cliente, data_agendada=data_agendada, quantidade=quantidade, nota_cliente=nota_cliente)
         return redirect(url_for("listar_equipamentos"))
 
-    equipamentos = tabela_equipamentos.select_todos()
+    equipamentos = tabela_equipamentos.select_todos_equipamentos()
     print(equipamentos)
     return render_template("listar_equipamentos.html", equipamentos=equipamentos)
 
@@ -120,7 +120,7 @@ def novo_recurso():
         tabela_recursos.salvar(nome=nome, responsavel=responsavel, equipamento=equipamento, descricao=descricao)
         return redirect(url_for("listar_recursos"))
 
-    recursos = tabela_recursos.select_todos()
+    recursos = tabela_recursos.select_todos_recursos()
     print(recursos)
     return render_template("listar_recursos.html", recursos=recursos)
 
@@ -168,7 +168,7 @@ def nova_ordem_servico():
         tabela_ordens.salvar(cliente=cliente, responsavel=responsavel, equipamento=equipamento, recurso=recurso, prioridade=prioridade, estado=estado, data_abertura=data_abertura, data_prazo=data_prazo, descricao=descricao)
         return redirect(url_for("listar_ordens_servicos"))
 
-    ordens_servicos = tabela_ordens.select_todos()
+    ordens_servicos = tabela_ordens.select_todas_ordens()
     print(ordens_servicos)
     return render_template("listar_ordens_servicos.html", ordens_servicos=ordens_servicos)
 
