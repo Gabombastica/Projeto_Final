@@ -4,7 +4,7 @@ from sqlalchemy.orm import declarative_base, relationship, sessionmaker, scoped_
 
 engine = create_engine("mysql+pymysql://root:senaisp@localhost:3306/final_project")
 
-db_sesseion = scoped_session (sessionmaker(bind=engine))
+db_final_project = scoped_session (sessionmaker(bind=engine))
 
 Base = declarative_base()
 
@@ -14,34 +14,42 @@ class Cadastro(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
     data_nascimento = Column(Date)
-    email = Column(String(100))
     telefone = Column(Integer)
-    senha = Column(String(50))
+    email = Column(String(50))
+    senha = Column(String(25))
 
 class Equipamento(Base):
     __tablename__ = "equipamentos"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
-    quantidade = Column(Integer, default=0)
-    usuario = Column(String(50), nullable=False)
-    nota_solicitante = Column(String(225), nullable=False)
+    cliente = Column(String(50), nullable=False)
     data_agendada = Column(Date, default=datetime.date.today())
-    atividade = Column(String(100), nullable=False)
-    preco = Column(Integer, default=0)
+    quantidade = Column(Integer, default=0)
+    nota_cliente = Column(String(300), nullable=False)
 
-class Ordem(Base):
-    __tablename__ = "ordem_servicos"
+class Recurso(Base):
+    __tablename__ = "recursos"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    nome_solicitante = Column(String(50), nullable=False)
-    nome_responsavel = Column(String(50), nullable=False)
-    descricao = Column(String(225))
+    nome = Column(String(50), nullable=False)
+    responsavel = Column(String(50), nullable=False)
+    equipamento = Column(String(50), nullable=False)
+    descricao = Column(String(300), nullable=False)
+
+class Ordem(Base):
+    __tablename__ = "ordens"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    cliente = Column(String(50), nullable=False)
+    responsavel = Column(String(50), nullable=False)
+    equipamento = Column(String(50), nullable=False)
+    recurso = Column(String(50), nullable=False)
     prioridade = Column(String(50))
-    material = Column(String(225))
     estado = Column(String(50))
-    comeco_ordem = Column(Date)
-    conclusao = Column(String(225))
+    data_abertura = Column(Date)
+    data_prazo = Column(Date)
+    descricao = Column(String(350), nullable=False)
 
 if __name__ == "__main__":
     Base.metadata.create_all(bind=engine)
