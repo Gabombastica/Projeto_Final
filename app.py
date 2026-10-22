@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
-from banco_dados import tabela_cadastros, tabela_equipamentos, tabela_ordens, tabela_recursos
+from banco_dados import tabela_usuarios, tabela_equipamentos, tabela_ordens, tabela_recursos
 from database import *
 from datetime import datetime
 
@@ -14,7 +14,7 @@ def home():
 
 @app.route("/cadastros", methods=["GET", "POST"])
 def listar_cadastros():
-    cadastros = tabela_cadastros.select_todos_cadastros()
+    cadastros = tabela_usuarios.select_todos_cadastros()
     return render_template("cadastros.html", cadastros=cadastros)
 
 @app.route("/equipamentos", methods=["GET", "POST"])
@@ -57,10 +57,10 @@ def novo_cadastro():
             flash('Por favor, insira a sua senha', 'error')
             return redirect(url_for("novo_cadastro"))
 
-        tabela_cadastros.salvar(nome=nome, data_nascimento=data_nascimento, email=email, telefone=telefone, senha=senha)
+        tabela_usuarios.salvar(nome=nome, data_nascimento=data_nascimento, email=email, telefone=telefone, senha=senha)
         return redirect(url_for("listar_cadastros"))
 
-    cadastros = tabela_cadastros.select_todos_cadastros()
+    cadastros = tabela_usuarios.select_todos_cadastros()
     print(cadastros)
     return render_template("cadastro_principal.html", cadastros=cadastros)
 

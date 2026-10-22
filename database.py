@@ -7,7 +7,7 @@ db_projeto_final = scoped_session (sessionmaker(bind=engine))
 
 Base = declarative_base()
 
-class Cadastro(Base):
+class Usuario(Base):
     __tablename__ = "cadastros"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -22,9 +22,9 @@ class Equipamento(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
-    cliente = Column(String(50), nullable=False)
+    usuario = Column(String(50), nullable=False)
     quantidade = Column(Integer, default=0)
-    nota_cliente = Column(String(300), nullable=False)
+    nota_usuario = Column(String(300), nullable=False)
 
 class Recurso(Base):
     __tablename__ = "recursos"
@@ -39,7 +39,7 @@ class Ordem(Base):
     __tablename__ = "ordens"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    cliente = Column(String(50), nullable=False)
+    usuario = Column(String(50), nullable=False)
     responsavel = Column(String(50), nullable=False)
     equipamento = Column(String(50), nullable=False)
     recurso = Column(String(50), nullable=False)

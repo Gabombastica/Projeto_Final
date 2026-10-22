@@ -7,14 +7,10 @@ from sqlalchemy.sql.elements import or_
 from database import db_projeto_final, Recurso
 
 def select_todos_recursos():
-    # Buscar todos os recursos no banco
-    # 1- Montar o select
-    recursos_sql = (
-        select(Recurso, func.count(Recurso.id).label("recursos"))
-    )
+
     # 2- Executar o select
-    recursos = db_projeto_final.execute(recursos_sql).all()
-    return recursos
+    equipamentos = db_projeto_final.execute(equipamentos_sql).all()
+    return equipamentos
 
 def salvar(nome, responsavel, equipamento, descricao):
     # 3- Salvar no banco
