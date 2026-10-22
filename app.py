@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
-from banco_dados import tabela_cadastro, tabela_equipamentos, tabela_ordens, tabela_recursos
+from banco_dados import tabela_cadastros, tabela_equipamentos, tabela_ordens, tabela_recursos
 from database import *
 from datetime import datetime
 
@@ -12,20 +12,25 @@ app.secret_key = "chave-secreta-projeto-2026"
 def home():
     return render_template("inicio.html")
 
+@app.route("/cadastros", methods=["GET", "POST"])
+def listar_cadastros():
+    cadastros = tabela_cadastros.select_todos_cadastros()
+    return render_template("cadastros.html", cadastros=cadastros)
+
 @app.route("/equipamentos", methods=["GET", "POST"])
 def listar_equipamentos():
     equipamentos = tabela_equipamentos.select_todos()
     return render_template("equipamentos.html", equipamentos=equipamentos)
 
-@app.route("/ordem_servicos", methods=["GET", "POST"])
-def listar_ordem_servicos():
-    ordem_servicos = tabela_ordens.select_todos()
-    return render_template("ordens_servicos.html", ordem_servicos=ordem_servicos)
+@app.route("/recursos", methods=["GET", "POST"])
+def listar_recursos():
+    recursos = tabela_recursos.select_todos()
+    return render_template("recursos.html", recursos=recursos)
 
-@app.route("/cadastros", methods=["GET", "POST"])
-def listar_cadastros():
-    cadastros = tabela_cadastro.select_todos_cadastros()
-    return render_template("cadastros.html", cadastros=cadastros)
+@app.route("/ordem_servicos", methods=["GET", "POST"])
+def listar_ordens_servicos():
+    ordens_servicos = tabela_ordens.select_todos()
+    return render_template("ordens_servicos.html", ordens_servicos=ordens_servicos)
 
 @app.route("/cadastro/novo", methods=["GET", "POST"])
 def novo_cadastro():
@@ -52,10 +57,10 @@ def novo_cadastro():
             flash('Por favor, insira a sua senha', 'error')
             return redirect(url_for("novo_cadastro"))
 
-        tabela_cadastro.salvar(nome=nome, data_nascimento=data_nascimento, email=email, telefone=telefone, senha=senha)
+        tabela_cadastros.salvar(nome=nome, data_nascimento=data_nascimento, email=email, telefone=telefone, senha=senha)
         return redirect(url_for("listar_cadastros"))
 
-    cadastros = tabela_cadastro.select_todos_cadastros()
+    cadastros = tabela_cadastros.select_todos_cadastros()
     print(cadastros)
     return render_template("cadastro_principal.html", cadastros=cadastros)
 
@@ -113,55 +118,59 @@ def novo_recurso():
             return redirect(url_for("novo_recurso"))
 
         tabela_recursos.salvar(nome=nome, responsavel=responsavel, equipamento=equipamento, descricao=descricao)
-        return redirect(url_for("listar_equipamentos"))
+        return redirect(url_for("listar_recursos"))
 
     recursos = tabela_recursos.select_todos()
     print(recursos)
-    return render_template("listar_equipamentos.html", equipamentos=equipamentos)
+    return render_template("listar_recursos.html", recursos=recursos)
 
 @app.route("/ordem_servico/nova", methods=["GET", "POST"])
 def nova_ordem_servico():
     if request.method == "POST":
-        nome_solicitante = request.form.get("nome_solicitante", "").strip()
-        nome_responsavel = request.form.get("nome_responsavel", "").strip()
-        descricao = request.form.get("descricao", "").strip()
+        cliente = request.form.get("cliente", "").strip()
+        responsavel = request.form.get("responsavel", "").strip()
+        equipamento = request.form.get("equipamento", "").strip()
+        recurso = request.form.get("recurso", "").strip()
         prioridade = request.form.get("prioridade", "").strip()
-        material = request.form.get("material", "").strip()
         estado = request.form.get("estado", "").strip()
-        comeco_ordem = request.form.get("comeco_ordem", "").strip()
-        conclusao = request.form.get("conclusao", "").strip()
+        data_abertura = request.form.get("data_abertura", "").strip()
+        data_prazo = request.form.get("data_prazo", "").strip()
+        descricao = request.form.get("descricao", "").strip()
 
-        if not nome_solicitante:
-            flash('Por favor, insira o nome do solicitante', 'error')
+        if not cliente:
+            flash('Por favor, insira o nome do cliente', 'error')
             return redirect(url_for("nova_ordem_servico"))
-        if not nome_responsavel:
+        if not responsavel:
             flash('Por favor, insira o nome do responsável', 'error')
             return redirect(url_for("nova_ordem_servico"))
-        if not descricao:
-            flash('Por favor, insira a descrição da ordem de serviço', 'error')
+        if not equipamento:
+            flash('Por favor, insira o equipamento', 'error')
+            return redirect(url_for("nova_ordem_servico"))
+        if not recurso:
+            flash('Por favor, insira o recurso', 'error')
             return redirect(url_for("nova_ordem_servico"))
         if not prioridade:
-            flash('Por favor, selecione a prioridade', 'error')
-            return redirect(url_for("nova_ordem_servico"))
-        if not material:
-            flash('Por favor, insira o material', 'error')
+            flash('Por favor, insira a prioridade', 'error')
             return redirect(url_for("nova_ordem_servico"))
         if not estado:
             flash('Por favor, selecione o status da OS', 'error')
             return redirect(url_for("nova_ordem_servico"))
-        if not comeco_ordem:
-            flash('Por favor, insira a data do começo', 'error')
+        if not data_abertura:
+            flash('Por favor, insira a data de abertura', 'error')
             return redirect(url_for("nova_ordem_servico"))
-        if not conclusao:
-            flash('Digite a conclusão', 'error')
+        if not data_prazo:
+            flash('Digite a data do prazo', 'error')
+            return redirect(url_for("nova_ordem_servico"))
+        if not descricao:
+            flash('Digite a descrição da OS', 'error')
             return redirect(url_for("nova_ordem_servico"))
 
-        tabela_ordens.salvar(nome_solicitante=nome_solicitante, nome_responsavel=nome_responsavel, descricao=descricao, prioridade=prioridade, material=material, estado=estado, comeco_ordem=comeco_ordem, conclusao=conclusao)
-        return redirect(url_for("listar_ordem_servicos"))
+        tabela_ordens.salvar(cliente=cliente, responsavel=responsavel, equipamento=equipamento, recurso=recurso, prioridade=prioridade, estado=estado, data_abertura=data_abertura, data_prazo=data_prazo, descricao=descricao)
+        return redirect(url_for("listar_ordens_servicos"))
 
-    ordem_servicos = tabela_ordens.select_todos()
-    print(ordem_servicos)
-    return render_template("ordem_servico_principal.html", ordem_servicos=ordem_servicos)
+    ordens_servicos = tabela_ordens.select_todos()
+    print(ordens_servicos)
+    return render_template("listar_ordens_servicos.html", ordens_servicos=ordens_servicos)
 
 if __name__ == "__main__":
     app.run(debug=True)
